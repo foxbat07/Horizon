@@ -1,7 +1,7 @@
 // Horizon.js
 
 // essentials
-// var gui = new dat.GUI();
+var gui = new dat.GUI();
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 100000 );
 var renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -31,25 +31,41 @@ var trackBallControls = new THREE.TrackballControls( camera, renderer.domElement
 
 // intialize three
 
-var sphere = new THREE.SphereBufferGeometry( 1, 16, 8 );
+// var sphere = new THREE.SphereBufferGeometry( 0.5, 16, 8 );
 var pointLight = new THREE.PointLight( 0xEE77DD, 2, 0 ,2 );
-pointLight.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x111111 } ) ) );
+// pointLight.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xEE77DD } ) ) );
+// scene.add( ligpointLightht1 );
+// pointLight.position.set( 0,0,0 );
+// pointLight.castShadow = true;
 scene.add( pointLight );
 
-var spotLight = new THREE.SpotLight( 0x770000, 2);
-spotLight.position.set( 0,0,200 );
-spotLight.target.position.set( 0 , 0 , -400 );
-spotLight.castShadow = true;
-scene.add( spotLight.target );
-scene.add( spotLight );
+// var spotLight = new THREE.SpotLight( 0xFF0000, 2);
+// spotLight.position.set( 0,0,0 );
+// spotLight.target.position.set( 100, -50, 0 );
+// spotLight.castShadow = true;
+// scene.add( spotLight.target );
+// scene.add( spotLight );
 
 
 
 var cylinderTerrainMaterial = new THREE.MeshLambertMaterial( { color: 0x449911, emissive: 0x6677DD,  side: THREE.DoubleSide, transparent: true, opacity: 1.0, wireframe: false } );
-var cylinderTerrainGeometry = new THREE.CylinderGeometry(30,30,900,32,60,true); // - 1 since it uses segments - keeps the math straight // 300,300,2000,100,100
+var cylinderTerrainGeometry = new THREE.CylinderGeometry(30,30,400,30,30,true); // - 1 since it uses segments - keeps the math straight // 300,300,2000,100,100
 var cylinderTerrainMesh = new THREE.Mesh( cylinderTerrainGeometry, cylinderTerrainMaterial );
 cylinderTerrainMesh.rotateX( - Math.PI / 2 );
+
 var backupGeometry = cylinderTerrainGeometry.clone();
+
+// var cylinderTerrainGeometry2 = new THREE.CylinderGeometry(20,20,200,30,30,true);
+// var quadGeometry = makeQuadLines(cylinderTerrainGeometry2);
+// quadGeometry.addAttribute("position", new THREE.Vector3(0,0,0));
+// var quadMaterial = new THREE.MeshBasicMaterial( { color: 'red', side: THREE.DoubleSide, transparent: true, opacity: 1.0, wireframe: true } );
+// var quadMesh = new THREE.LineSegments( quadGeometry, quadMaterial );
+
+// var backupQuadGeometry = quadGeometry.clone();
+
+// quadMesh.rotateX( - Math.PI / 2 );
+
+// trigger threejs function starts
 
 init();
 animate();
@@ -72,21 +88,21 @@ function animate() {
     scene.background = new THREE.Color(0xFFFFFF);
 
     var time = Date.now() * 0.0005;
-    pointLight.position.x = Math.sin( time * 0.7 ) * 60;
-    pointLight.position.y = Math.cos( time * 0.5 ) * 60;
-    pointLight.position.z = Math.cos( time * 0.3 ) * 200;
+    pointLight.position.x = Math.sin( time * 0.7 ) * 30;
+    pointLight.position.y = Math.cos( time * 0.5 ) * 40;
+    pointLight.position.z = Math.cos( time * 0.3 ) * 30;
 
 
     // cylinderTerrainGeometry.vertices = newCylinderVertices;
     for ( var i = 0; i < cylinderTerrainGeometry.vertices.length; i ++ ) {
         // var startMillis = date.getMilliseconds();
-        var CNFrequency = Date.now()/100000 * 100;
+        var CNFrequency = Date.now() * 0.0005;
         var CNAmplitude = 0.5;
         var CNDistortion = 600;
 
         var x = 0.5 + 0.5 * Math.sin(CNFrequency + i%CNDistortion);
         var y = 0.5 + 0.5 * Math.cos(CNFrequency + i/CNDistortion);
-        var z = x * y / 3;
+        var z = x * y / 3; //perlin.noise(x, y, x * y);
 
         var perlinNoise = CNAmplitude * perlin.noise(x, y, z);
 
