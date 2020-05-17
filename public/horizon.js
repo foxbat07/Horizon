@@ -38,41 +38,7 @@ var cylinderTerrainMesh = new THREE.Mesh( cylinderTerrainGeometry, cylinderTerra
 
 var backupGeometry = cylinderTerrainGeometry.clone();
 
-// cylinderTerrainMesh.rotateX( - Math.PI / 2 );
-
-// generate terrain
-
-function deformCylinder(verticesLength) {
-    //generate cylinder terrain
-    var k = 1;
-    var startMillis = date.getMilliseconds();
-    var vertices = [];
-    var modulate = clock.getElapsedTime() / 5000;
-    var modulateFactor = 0.001;
-
-    for ( var i = 0; i < verticesLength; i ++ ) {
-        // var noiseX = (1 + k * perlin.noise(i%2, i%5, i/17 * startMillis) * Math.sin(startMillis));
-        // var noiseZ = (1 + k * perlin.noise(i/13, i%11 , i%3 * startMillis) * Math.cos(startMillis)) ;
-
-        // var sx = Math.cos(startMillis * 100 * i);
-        // var sz = Math.sin(startMillis * 100 * i);
-
-        // var x = cylinderTerrainGeometry.vertices[i].x * sx;
-        // var y = cylinderTerrainGeometry.vertices[i].y;
-        // var z = cylinderTerrainGeometry.vertices[i].z * sz;
-        
-        var x = 2 + i % 17
-        var y = 3 + i%5;
-        var z = perlin.noise(i * modulate , x, y);
-
-        var sx =  perlin.noise( modulateFactor * Math.sin(startMillis * modulate) * x , modulateFactor * Math.cos(startMillis * modulate) * y , z );
-        var sz =  perlin.noise( modulateFactor * Math.cos(startMillis * modulate) * y, modulateFactor * Math.sin(startMillis * modulate) * x , z );
-
-        vertices.push(new THREE.Vector3(0.1 * sx, 0, 0.1 * sz));
-    }
-
-    return vertices;
-}
+cylinderTerrainMesh.rotateX( - Math.PI / 2 );
 
 // trigger threejs function starts
 
@@ -96,9 +62,6 @@ function init(){
 function animate() {
     requestAnimationFrame(animate);
 
-    // cylinderTerrainGeometry = backupGeometry;
-    //generate cylinder terrain
-    var newCylinderVertices = deformCylinder(cylinderTerrainGeometry.vertices.length);
     // cylinderTerrainGeometry.vertices = newCylinderVertices;
     for ( var i = 0; i < cylinderTerrainGeometry.vertices.length; i ++ ) {
         var startMillis = date.getMilliseconds();
@@ -109,9 +72,6 @@ function animate() {
         var y = 3 + i%5;
         var z = perlin.noise(i * CNFrequency , x, y);
 
-        // var sx =  perlin.noise( CNAmplitude * Math.sin(CNFrequency) * x , CNAmplitude * Math.cos(CNFrequency) * y , z );
-        // var sz =  perlin.noise( CNAmplitude * Math.cos(CNFrequency) * y, CNAmplitude * Math.sin(CNFrequency) * x , z );
-        
         var perlinNoise = CNAmplitude * perlin.noise( Math.cos(startMillis * CNFrequency) * y, Math.sin( startMillis * CNFrequency) * x , z );
 
         cylinderTerrainGeometry.vertices[i].x = backupGeometry.vertices[i].x * (1 + perlinNoise);
