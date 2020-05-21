@@ -44,9 +44,8 @@ scene.add( pointLight );
 
 var distantFog = new THREE.FogExp2( controls.fogColor, controls.fogDensity/1000 );
 
-
 var cylinderTerrainMaterial = new THREE.MeshLambertMaterial( { color: controls.formColor, emissive: controls.emissiveColor, fog: false,  side: THREE.DoubleSide, transparent: true, opacity: 1.0, wireframe: false } );
-var cylinderTerrainGeometry = new THREE.CylinderGeometry(30,30,900,32,60,true); // - 1 since it uses segments - keeps the math straight // 300,300,2000,100,100
+var cylinderTerrainGeometry = new THREE.CylinderGeometry(30,30,600,64,120,true); // - 1 since it uses segments - keeps the math straight // 300,300,2000,100,100
 var cylinderTerrainMesh = new THREE.Mesh( cylinderTerrainGeometry, cylinderTerrainMaterial );
 cylinderTerrainMesh.rotateX( - Math.PI / 2 );
 var backupGeometry = cylinderTerrainGeometry.clone();
@@ -74,9 +73,9 @@ function animate() {
     distantFog.density = controls.fogDensity/10000;
 
     var time = Date.now() * 0.0005;
-    pointLight.position.x = Math.sin( time * 0.7 ) * 60;
-    pointLight.position.y = Math.cos( time * 0.5 ) * 60;
-    pointLight.position.z = Math.cos( time * 0.3 ) * 200;
+    pointLight.position.x = 60 - Math.sin( time * 0.7 ) * 120;
+    pointLight.position.y = 60 - Math.cos( time * 0.5 ) * 120;
+    pointLight.position.z = 200 - Math.cos( time * 0.3 ) * 400;
 
 
     // cylinderTerrainGeometry.vertices = newCylinderVertices;

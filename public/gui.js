@@ -25,7 +25,7 @@ var controls = new function() {
 var general = gui.addFolder('Horizon Generator');
 general.add(controls, 'takeImage').name('Take Screenshot');
 general.addColor(controls, 'backgroundColor').name('Background');
-general.open();
+general.close();
 
 var f0 = gui.addFolder('Form & Color');
 f0.add(controls, 'form', [ 'Cylinder', 'Planes']);
@@ -39,8 +39,8 @@ f0.open();
 var f1 = gui.addFolder('Cylinder');
 f1.add(controls, 'amplitude', 0, 100).name('Amplitude');
 f1.add(controls, 'frequency', 0, 1).name('Frequency');
-f1.add(controls, 'distortion', 0, 1000).name('Distortion');
-
+f1.add(controls, 'distortion', 1, 1000).name('Distortion');
+f1.open();
 
 
 // Image saving
