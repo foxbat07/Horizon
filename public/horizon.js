@@ -2,7 +2,7 @@
 
 // essentials
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 100000 );
+var camera = new THREE.PerspectiveCamera( 120, window.innerWidth/window.innerHeight, 0.1, 100000 );
 var renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 const loader = new THREE.TextureLoader();
 var spriteMap = loader.load("assets/circle-64.png" );
@@ -81,15 +81,15 @@ function animate() {
     // cylinderTerrainGeometry.vertices = newCylinderVertices;
     for ( var i = 0; i < cylinderTerrainGeometry.vertices.length; i ++ ) {
         // var startMillis = date.getMilliseconds();
+        // var CNAmplitude = controls.frequency;
+        // var CNDistortion = controls.distortion;
         var CNFrequency = Date.now()/10000 * controls.amplitude;
-        var CNAmplitude = controls.frequency;
-        var CNDistortion = controls.distortion;
-
-        var x = 0.5 + 0.5 * Math.sin(CNFrequency + i%CNDistortion);
-        var y = 0.5 + 0.5 * Math.cos(CNFrequency + i/CNDistortion);
+        
+        var x = 0.5 + 0.5 * Math.sin(CNFrequency + i%controls.distortion);
+        var y = 0.5 + 0.5 * Math.cos(CNFrequency + i/controls.distortion);
         var z = x * y / 3;
 
-        var perlinNoise = CNAmplitude * perlin.noise(x, y, z);
+        var perlinNoise = controls.frequency * perlin.noise(x, y, z);
 
         cylinderTerrainGeometry.vertices[i].x = backupGeometry.vertices[i].x * (1 + perlinNoise);
         cylinderTerrainGeometry.vertices[i].z = backupGeometry.vertices[i].z * (1 + perlinNoise);
