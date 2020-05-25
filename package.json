@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npm install",
     "start": "node server.js",
-    "run": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "rebuild": "rm -rf node_modules && npm install && nodemon server.js"
   },
   "keywords": [
     "creative",

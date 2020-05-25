@@ -95,6 +95,7 @@ function animate() {
         cylinderTerrainGeometry.vertices[i].z = backupGeometry.vertices[i].z * (1 + perlinNoise);
     }
 
+    cylinderTerrainMaterial.wireframe = controls.wireframe;
     cylinderTerrainMaterial.color.set(controls.formColor);
     cylinderTerrainMaterial.emissive.set(controls.emissiveColor);
 
