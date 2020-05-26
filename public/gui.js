@@ -8,8 +8,8 @@ var currentTime = date.getTime();
 var controls = new function() {
     this.takeImage = function(){ saveAsImage() };
     this.researchLink = function() {window.open('https://www.youtube.com/watch?v=EtI7f3Rwqkw')};
-    this.backgroundColor = 0xffffff;
-    this.form = 'Cylinder';
+    this.backgroundColor = 0x282555;
+    this.form = 'Plane';
     this.wireframe = false;
     this.formColor = 0x449911;
     this.emissiveColor = 0x6677DD;
