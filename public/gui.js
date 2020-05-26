@@ -11,13 +11,13 @@ var controls = new function() {
     this.backgroundColor = 0x282555;
     this.form = 'Plane';
     this.wireframe = false;
-    this.formColor = 0x449911;
-    this.emissiveColor = 0x6677DD;
+    this.formColor = 0x5f1769;
+    this.emissiveColor = 0x1a2fac;
     this.fogDensity = 0;
-    this.fogColor = 0x000000;
+    this.fogColor = 0xe691e6;
 
     this.dynamic = true;
-    this.amplitude = 10;
+    this.amplitude = 25;
     this.frequency = 0.5;
     this.distortion = 600;
 };
@@ -28,11 +28,11 @@ general.addColor(controls, 'backgroundColor').name('Background');
 general.close();
 
 var f0 = gui.addFolder('Form & Color');
-f0.add(controls, 'form', [ 'Cylinder', 'Planes']);
+f0.add(controls, 'form', [ 'Cylinder', 'Plane']);
 f0.add(controls, 'wireframe').name('Show wireframe');
 f0.addColor(controls, 'formColor').name('Form Color');
 f0.addColor(controls, 'emissiveColor').name('Emissive Color');
-f0.add(controls, 'fogDensity', 0, 10).name('Fog Density');
+f0.add(controls, 'fogDensity', 0, 100).name('Fog Density');
 f0.addColor(controls, 'fogColor').name('Fog Color');
 f0.open();
 
