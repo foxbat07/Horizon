@@ -35,36 +35,26 @@ var cylinderHeight = 600;
 var cylinderRadiusSegments = 64;
 var cylinderHeightSegements = 120;
 
-// intialize three
+// intialize lights
 var sphere = new THREE.SphereBufferGeometry( 16, 16, 16 );
-var pointLight = new THREE.PointLight( 0xa0a0a0, 2, 0 ,2 );
+var pointLight = new THREE.PointLight( 0xa0a0a0, 1, 0 ,2 );
 pointLight.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xdddddd } ) ) );
 scene.add( pointLight );
 
 var ambientLight = new THREE.AmbientLight( controls.ambientLightColor, controls.ambientLightIntensity ); // soft white light
 scene.add( ambientLight );
 
-// var spotLight = new THREE.SpotLight( 0x770000, 2, 1000);
-// spotLight.position.set( 0,0,500 );
-// spotLight.target.position.set( 0 , 0 , -600 );
-// scene.add( spotLight.target );
-// spotLight.castShadow = true;
-// scene.add( spotLight );
-
 var distantFog = new THREE.FogExp2( controls.fogColor, controls.fogDensity/1000 );
 
 //  cylinder geometry
-
 var cylinderTerrainMaterial = new THREE.MeshLambertMaterial( { color: controls.formColor, emissive: controls.emissiveColor,  side: THREE.DoubleSide, transparent: true, opacity: 1.0, wireframe: false } );
 var cylinderTerrainGeometry = new THREE.CylinderGeometry(cylinderRadius1,cylinderRadius2,cylinderHeight,cylinderRadiusSegments,cylinderHeightSegements,true); // - 1 since it uses segments - keeps the math straight // 300,300,2000,100,100
 // var cylinderTerrainGeometry = new THREE.CylinderBufferGeometry( 30, 30, 600, 64,120, true );
 var cylinderTerrainMesh = new THREE.Mesh( cylinderTerrainGeometry, cylinderTerrainMaterial );
 cylinderTerrainMesh.rotateX( - Math.PI / 2 );
-
 var backupGeometry = cylinderTerrainGeometry.clone();
 
 //  plane geometry
-
 var planeTerrainGeometry = new THREE.PlaneBufferGeometry(planeWidth, planeHeight, planeWidthSegments, planeHeightSegments);
 planeTerrainGeometry.rotateX( - Math.PI / 2 );
 
@@ -76,19 +66,17 @@ init();
 animate();
 
 // threejs init function
-
 function init(){
     camera.position.set(0,0,300);
     trackBallControls.rotateSpeed = 4;
     trackBallControls.zoomSpeed = 1;
 
-    scene.fog = distantFog; // new THREE.FogExp2( 0xefaab5, 0.0025 );
+    scene.fog = distantFog;
     scene.add(cylinderTerrainMesh);
     scene.add(planeTerrainMesh);
 }
 
 // threejs animate function
-
 function animate() {
     requestAnimationFrame(animate);
     trackBallControls.update();
@@ -100,7 +88,6 @@ function animate() {
     distantFog.density = controls.fogDensity/10000;
 
     var time = Date.now() * 0.0005;
-    var time2 =  Date.now() * 0.005;
 
     pointLight.position.x = 60 - Math.sin( time * 0.7 ) * 120;
     pointLight.position.y = 60 - Math.cos( time * 0.5 ) * 120;
@@ -118,18 +105,6 @@ function animate() {
 
     // animate plane
     if ( planeTerrainMesh.visible == true ) {
-        // position = planeTerrainGeometry.attributes.position;
-        // for ( var i = 0; i < position.count; i ++ ) {
-        //     var CNFrequency = Date.now()/500 * controls.frequency;
-        //     var x = Math.sin(CNFrequency + i/(controls.distortion));
-        //     var y = Math.cos(CNFrequency + i%(controls.distortion));
-        //     var z = 1 - x * y;
-        //     var perlinNoise = controls.frequency * perlin.noise(x, y, z);
-        //     // var height = 10 * Math.sin( i % 5 + ( time2 + i ) / 7 );
-
-        //     position.setY( i, controls.amplitude * ( perlinNoise ) );
-        // }
-
         var data = generateTerrain( planeWidthSegments+1 , planeHeightSegments+1)
         var vertices = planeTerrainGeometry.attributes.position.array;
 
@@ -137,8 +112,8 @@ function animate() {
             vertices[j + 1] = data[i];
         }
 
-        planeTerrainGeometry.translate(0,-50,0);
         vertices.needsUpdate = true;
+        planeTerrainGeometry.translate(0,-50,0);
         planeTerrainGeometry.computeBoundingSphere();
         planeTerrainGeometry.computeVertexNormals();
         planeTerrainGeometry.computeFaceNormals();
@@ -148,11 +123,11 @@ function animate() {
     if ( cylinderTerrainMesh.visible == true) {
         for ( var i = 0; i < cylinderTerrainGeometry.vertices.length; i ++ ) {
     
-            var CNFrequency = Date.now()/10000 * controls.amplitude;
+            var CNFrequency = Date.now()/10000 * controls.frequency;
             var x = 0.5 + 0.5 * Math.sin(CNFrequency + i%controls.distortion);
             var y = 0.5 + 0.5 * Math.cos(CNFrequency + i/controls.distortion);
             var z = x * y / 3;
-            var perlinNoise = controls.frequency * perlin.noise(x, y, z);
+            var perlinNoise = controls.amplitude * perlin.noise(x, y, z);
     
             cylinderTerrainGeometry.vertices[i].x = backupGeometry.vertices[i].x * (1 + perlinNoise);
             cylinderTerrainGeometry.vertices[i].z = backupGeometry.vertices[i].z * (1 + perlinNoise);
@@ -171,7 +146,6 @@ function animate() {
 };
 
 // threejs render function
-
 function render() { 
     
     scene.background = new THREE.Color(controls.backgroundColor);
@@ -200,7 +174,7 @@ function generateTerrain( ws, hs  ) {
         for ( var i = 0; i < size; i ++ ) {
             var x = i % ws
             var y = (parseInt(i/ws))/hs;
-            var z = perlin.noise(i * modulate , x, y);
+            var z = perlin.noise(i * modulate, x, y);
             data[ i ] += controls.amplitude * Math.abs( perlin.noise( modulateFactor * Math.sin(modulate), modulateFactor * Math.cos(modulate), z )) ;
         }
     }

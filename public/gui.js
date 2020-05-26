@@ -21,7 +21,7 @@ var controls = new function() {
     this.roughness = 2;
 
     this.dynamic = false;
-    this.amplitude = 25;
+    this.amplitude = 20;
     this.frequency = 0.5;
     this.distortion = 20;
 };
