@@ -62,7 +62,7 @@ function saveAsImage() {
         var strMime = "image/jpeg";
         var strDownloadMime = "image/octet-stream";
         imgData = renderer.domElement.toDataURL(strMime);
-        var fileName = 'supershape-image-' + currentTime+ '.jpg';
+        var fileName = 'horizon-image-' + currentTime+ '.jpg';
         saveFile(imgData.replace(strMime, strDownloadMime), fileName);
     } catch (e) {
         console.log(e);

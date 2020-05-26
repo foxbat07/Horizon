@@ -124,9 +124,9 @@ function animate() {
         for ( var i = 0; i < cylinderTerrainGeometry.vertices.length; i ++ ) {
     
             var CNFrequency = Date.now()/10000 * controls.frequency;
-            var x = 0.5 + 0.5 * Math.sin(CNFrequency + i%controls.distortion);
-            var y = 0.5 + 0.5 * Math.cos(CNFrequency + i/controls.distortion);
-            var z = x * y / 3;
+            var x = 0.25 + 0.75 * Math.sin(CNFrequency + i%controls.distortion);
+            var y = 0.25 + 0.75 * Math.cos(CNFrequency + i/controls.distortion);
+            var z = x * y / 5;
             var perlinNoise = controls.amplitude * perlin.noise(x, y, z);
     
             cylinderTerrainGeometry.vertices[i].x = backupGeometry.vertices[i].x * (1 + perlinNoise);
@@ -168,8 +168,7 @@ function generateTerrain( ws, hs  ) {
     }
 
     if(controls.dynamic) {
-        // var modulate = clock.getElapsedTime() * controls.frequency ;
-        var modulate = Date.now()* 0.000001 * controls.frequency;
+        var modulate = Date.now() * 0.000001 * controls.frequency;
         var modulateFactor = 10;
         for ( var i = 0; i < size; i ++ ) {
             var x = i % ws
