@@ -17,11 +17,15 @@ var controls = new function() {
     this.fogColor = 0xe691e6;
 
     this.form = 'Plane';
+    this.rough = 4;
+    this.octaves = 3;
+    
     this.wireframe = false;
     this.formColor = 0xffffff;
     this.emissiveColor = 0x001625;
-    this.roughness = 4;
-    this.octaves = 3;
+    this.metalness = 0.5;
+    this.roughness = 0.5;
+    this.flatShading = false;
 
     this.dynamic = false;
     this.amplitude = 0.5;
@@ -41,15 +45,17 @@ general.close();
 
 var f0 = gui.addFolder('Form & Color');
 f0.add(controls, 'form', [ 'Cylinder', 'Plane']);
-f0.add(controls, 'roughness', 0,20).name('Terrain Rough');
+f0.add(controls, 'rough', 0,20).name('Terrain Rough');
 f0.add(controls, 'octaves', 0,5).name('Terrain Octaves').step(1);
 f0.open();
 
 var f1 = gui.addFolder('Material');
-f1.add(controls, 'wireframe').name('Show wireframe');
+f1.add(controls, 'wireframe').name('Show Wireframe');
+f1.add(controls, 'flatShading').name('Flat Shading');
 f1.addColor(controls, 'formColor').name('Form Color');
 f1.addColor(controls, 'emissiveColor').name('Emissive Color');
-
+f1.add(controls, 'metalness', 0,1).name('Metalness');
+f1.add(controls, 'roughness', 0,1).name('Roughness');
 
 var f2 = gui.addFolder('Dynamic');
 f2.add(controls, 'dynamic').name('Dynamic');

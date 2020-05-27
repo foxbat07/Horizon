@@ -47,7 +47,9 @@ scene.add( ambientLight );
 var distantFog = new THREE.FogExp2( controls.fogColor, controls.fogDensity/1000 );
 
 //  cylinder geometry
-var cylinderTerrainMaterial = new THREE.MeshLambertMaterial( { color: controls.formColor, emissive: controls.emissiveColor,  side: THREE.DoubleSide, transparent: true, opacity: 1.0, wireframe: false } );
+var cylinderTerrainMaterial = new THREE.MeshStandardMaterial( { color: controls.formColor, emissive: controls.emissiveColor,  side: THREE.DoubleSide, wireframe: false, flatShading: false } );
+// var cylinderTerrainMaterial = new THREE.MeshLambertMaterial( { color: controls.formColor, emissive: controls.emissiveColor,  side: THREE.DoubleSide, transparent: true, opacity: 1.0, wireframe: false } );
+
 var cylinderTerrainGeometry = new THREE.CylinderGeometry(cylinderRadius1,cylinderRadius2,cylinderHeight,cylinderRadiusSegments,cylinderHeightSegements,true); // - 1 since it uses segments - keeps the math straight // 300,300,2000,100,100
 // var cylinderTerrainGeometry = new THREE.CylinderBufferGeometry( 30, 30, 600, 64,120, true );
 var cylinderTerrainMesh = new THREE.Mesh( cylinderTerrainGeometry, cylinderTerrainMaterial );
@@ -137,8 +139,12 @@ function animate() {
     }
 
     cylinderTerrainMaterial.wireframe = controls.wireframe;
+    cylinderTerrainMaterial.flatShading = controls.flatShading;
     cylinderTerrainMaterial.color.set(controls.formColor);
     cylinderTerrainMaterial.emissive.set(controls.emissiveColor);
+    cylinderTerrainMaterial.metalness = controls.metalness;
+    cylinderTerrainMaterial.roughness = controls.roughness;
+    
 
     render();
 };
@@ -158,7 +164,7 @@ function generateTerrain( ws, hs  ) {
             var x = i % ws + controls.distortion * startMillis * 0.0001;
             var y = (parseInt(i/ws))/hs + controls.distortion * startMillis * 0.0001;
             var z = perlin.noise(x,y,i * startMillis/1000); //startMillis helps keep things random on each initialize
-            data[ i ] += controls.roughness * quality * Math.abs( perlin.noise( x/ quality, y/quality,z ));
+            data[ i ] += controls.rough * quality * Math.abs( perlin.noise( x/ quality, y/quality,z ));
         }
         quality *= 3;
     }
