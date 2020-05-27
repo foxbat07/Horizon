@@ -1,5 +1,8 @@
 // gui initialize
-var gui = new dat.GUI();
+// var horizonPresets = new HorizonPresets();
+var gui = new dat.GUI({load: JSON, preset: 'Default'});
+gui.remember(controls);
+// gui.useLocalStorage = true;
 
 // set time and clocks
 var date = new Date();
@@ -18,7 +21,8 @@ var controls = new function() {
     this.wireframe = false;
     this.formColor = 0xffffff;
     this.emissiveColor = 0x001625;
-    this.roughness = 2;
+    this.roughness = 4;
+    this.octaves = 3;
 
     this.dynamic = false;
     this.amplitude = 20;
@@ -43,8 +47,8 @@ f0.add(controls, 'form', [ 'Cylinder', 'Plane']);
 f0.add(controls, 'wireframe').name('Show wireframe');
 f0.addColor(controls, 'formColor').name('Form Color');
 f0.addColor(controls, 'emissiveColor').name('Emissive Color');
-f0.add(controls, 'roughness', 0,5).name('Terrain Roughness');
-
+f0.add(controls, 'roughness', 0,20).name('Terrain Rough');
+f0.add(controls, 'octaves', 0,5).name('Terrain Octaves').step(1);
 f0.open();
 
 var f1 = gui.addFolder('Dynamic');
@@ -53,6 +57,12 @@ f1.add(controls, 'amplitude', 0, 100).name('Amplitude');
 f1.add(controls, 'frequency', 0, 1).name('Frequency');
 f1.add(controls, 'distortion', 1, 100).name('Distortion');
 f1.open();
+
+// presets
+function HorizonPresets() {
+
+}
+
 
 
 // Image saving

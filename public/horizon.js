@@ -2,7 +2,7 @@
 
 // essentials
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 90, window.innerWidth/window.innerHeight, 0.1, 10000 );
+var camera = new THREE.PerspectiveCamera( 60, window.innerWidth/window.innerHeight, 0.1, 10000 );
 var renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 const loader = new THREE.TextureLoader();
 var perlin = new THREE.ImprovedNoise();
@@ -24,8 +24,8 @@ document.body.appendChild( renderer.domElement );
 var trackBallControls = new THREE.TrackballControls( camera, renderer.domElement );
 
 // variables
-var planeWidth = 1200;
-var planeHeight = 1200;
+var planeWidth = 2400;
+var planeHeight = 2400;
 var planeWidthSegments = 63; // 128 -1 since the vertex is one more.
 var planeHeightSegments = 63;
 
@@ -38,7 +38,7 @@ var cylinderHeightSegements = 120;
 // intialize lights
 var sphere = new THREE.SphereBufferGeometry( 16, 16, 16 );
 var pointLight = new THREE.PointLight( 0xa0a0a0, 1, 0 ,2 );
-pointLight.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xdddddd } ) ) );
+pointLight.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xdddddd, fog: false } ) ) );
 scene.add( pointLight );
 
 var ambientLight = new THREE.AmbientLight( controls.ambientLightColor, controls.ambientLightIntensity ); // soft white light
@@ -126,7 +126,7 @@ function animate() {
             var CNFrequency = Date.now()/10000 * controls.frequency;
             var x = 0.25 + 0.75 * Math.sin(CNFrequency + i%controls.distortion);
             var y = 0.25 + 0.75 * Math.cos(CNFrequency + i/controls.distortion);
-            var z = x * y / 5;
+            var z = x * y;
             var perlinNoise = controls.amplitude * perlin.noise(x, y, z);
     
             cylinderTerrainGeometry.vertices[i].x = backupGeometry.vertices[i].x * (1 + perlinNoise);
@@ -157,7 +157,7 @@ function render() {
 function generateTerrain( ws, hs  ) {
     var size = ws * hs
     var data = new Uint8Array( size ), quality = 1;
-    for ( var j = 0; j < 5; j ++ ) {
+    for ( var j = 0; j < controls.octaves; j ++ ) {
         for ( var i = 0; i < size; i ++ ) {
             var x = i % ws + controls.distortion * startMillis * 0.0001;
             var y = (parseInt(i/ws))/hs + controls.distortion * startMillis * 0.0001;
