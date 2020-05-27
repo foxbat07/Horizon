@@ -25,7 +25,7 @@ var controls = new function() {
     this.octaves = 3;
 
     this.dynamic = false;
-    this.amplitude = 20;
+    this.amplitude = 0.5;
     this.frequency = 0.5;
     this.distortion = 20;
 };
@@ -53,7 +53,7 @@ f0.open();
 
 var f1 = gui.addFolder('Dynamic');
 f1.add(controls, 'dynamic').name('Dynamic');
-f1.add(controls, 'amplitude', 0, 100).name('Amplitude');
+f1.add(controls, 'amplitude', 0, 1).name('Amplitude');
 f1.add(controls, 'frequency', 0, 1).name('Frequency');
 f1.add(controls, 'distortion', 1, 100).name('Distortion');
 f1.open();

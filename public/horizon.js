@@ -120,15 +120,13 @@ function animate() {
     }
 
     // animate cylinder
-    if ( cylinderTerrainMesh.visible == true) {
+    if ( cylinderTerrainMesh.visible == true && controls.dynamic == true) {
         for ( var i = 0; i < cylinderTerrainGeometry.vertices.length; i ++ ) {
-    
             var CNFrequency = Date.now()/10000 * controls.frequency;
-            var x = 0.25 + 0.75 * Math.sin(CNFrequency + i%controls.distortion);
-            var y = 0.25 + 0.75 * Math.cos(CNFrequency + i/controls.distortion);
+            var x = 0.5 + 0.5 * Math.sin(CNFrequency + i%controls.distortion);
+            var y = 0.5 + 0.5 * Math.cos(CNFrequency + i/controls.distortion);
             var z = x * y;
             var perlinNoise = controls.amplitude * perlin.noise(x, y, z);
-    
             cylinderTerrainGeometry.vertices[i].x = backupGeometry.vertices[i].x * (1 + perlinNoise);
             cylinderTerrainGeometry.vertices[i].z = backupGeometry.vertices[i].z * (1 + perlinNoise);
         }
@@ -174,7 +172,7 @@ function generateTerrain( ws, hs  ) {
             var x = i % ws
             var y = (parseInt(i/ws))/hs;
             var z = perlin.noise(i * modulate, x, y);
-            data[ i ] += controls.amplitude * Math.abs( perlin.noise( modulateFactor * Math.sin(modulate), modulateFactor * Math.cos(modulate), z )) ;
+            data[ i ] += 100 * controls.amplitude * Math.abs( perlin.noise( modulateFactor * Math.sin(modulate), modulateFactor * Math.cos(modulate), z )) ;
         }
     }
     return data;
