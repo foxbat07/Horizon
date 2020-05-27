@@ -122,7 +122,7 @@ function animate() {
     // animate cylinder
     if ( cylinderTerrainMesh.visible == true && controls.dynamic == true) {
         for ( var i = 0; i < cylinderTerrainGeometry.vertices.length; i ++ ) {
-            var CNFrequency = Date.now()/10000 * controls.frequency;
+            var CNFrequency = Date.now() * 0.001 * controls.frequency;
             var x = 0.5 + 0.5 * Math.sin(CNFrequency + i%controls.distortion);
             var y = 0.5 + 0.5 * Math.cos(CNFrequency + i/controls.distortion);
             var z = x * y;
