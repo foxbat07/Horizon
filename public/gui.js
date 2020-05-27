@@ -1,5 +1,4 @@
 // gui initialize
-// var horizonPresets = new HorizonPresets();
 var gui = new dat.GUI({load: JSON, preset: 'Default'});
 gui.remember(controls);
 // gui.useLocalStorage = true;
@@ -33,10 +32,8 @@ var controls = new function() {
 var general = gui.addFolder('Horizon Generator');
 general.add(controls, 'takeImage').name('Take Screenshot');
 general.addColor(controls, 'backgroundColor').name('Background');
-
-general.addColor(controls, 'ambientLightColor').name('Ambient Light');
 general.add(controls, 'ambientLightIntensity', 0, 5).name('Ambient Intensity');
-
+general.addColor(controls, 'ambientLightColor').name('Ambient Light');
 general.add(controls, 'fogDensity', 0, 100).name('Fog Density');
 general.addColor(controls, 'fogColor').name('Fog Color');
 
@@ -44,26 +41,22 @@ general.close();
 
 var f0 = gui.addFolder('Form & Color');
 f0.add(controls, 'form', [ 'Cylinder', 'Plane']);
-f0.add(controls, 'wireframe').name('Show wireframe');
-f0.addColor(controls, 'formColor').name('Form Color');
-f0.addColor(controls, 'emissiveColor').name('Emissive Color');
 f0.add(controls, 'roughness', 0,20).name('Terrain Rough');
 f0.add(controls, 'octaves', 0,5).name('Terrain Octaves').step(1);
 f0.open();
 
-var f1 = gui.addFolder('Dynamic');
-f1.add(controls, 'dynamic').name('Dynamic');
-f1.add(controls, 'amplitude', 0, 1).name('Amplitude');
-f1.add(controls, 'frequency', 0, 1).name('Frequency');
-f1.add(controls, 'distortion', 1, 100).name('Distortion');
-f1.open();
-
-// presets
-function HorizonPresets() {
-
-}
+var f1 = gui.addFolder('Material');
+f1.add(controls, 'wireframe').name('Show wireframe');
+f1.addColor(controls, 'formColor').name('Form Color');
+f1.addColor(controls, 'emissiveColor').name('Emissive Color');
 
 
+var f2 = gui.addFolder('Dynamic');
+f2.add(controls, 'dynamic').name('Dynamic');
+f2.add(controls, 'amplitude', 0, 1).name('Amplitude');
+f2.add(controls, 'frequency', 0, 1).name('Frequency');
+f2.add(controls, 'distortion', 1, 100).name('Distortion');
+f2.open();
 
 // Image saving
 function saveAsImage() {

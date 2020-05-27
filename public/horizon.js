@@ -24,8 +24,8 @@ document.body.appendChild( renderer.domElement );
 var trackBallControls = new THREE.TrackballControls( camera, renderer.domElement );
 
 // variables
-var planeWidth = 2400;
-var planeHeight = 2400;
+var planeWidth = 1200;
+var planeHeight = 1200;
 var planeWidthSegments = 63; // 128 -1 since the vertex is one more.
 var planeHeightSegments = 63;
 
@@ -145,9 +145,7 @@ function animate() {
 
 // threejs render function
 function render() { 
-    
     scene.background = new THREE.Color(controls.backgroundColor);
-
     renderer.render( scene, camera );
 }
 
