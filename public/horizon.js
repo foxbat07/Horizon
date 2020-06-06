@@ -7,6 +7,8 @@ var renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer:
 const loader = new THREE.TextureLoader();
 var perlin = new THREE.ImprovedNoise();
 
+// experimental
+
 var strDownloadMime = "image/octet-stream";
 
 // set time and clocks
